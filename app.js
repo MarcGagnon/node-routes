@@ -1,36 +1,33 @@
 // Import Node's http module
 const http = require('http');
-const fs = require('fs');
 
 // Create a request listener function
 function reqListener(req, res) {
     const url = req.url;
-    const method = req.method;
 
-    if (url === '/') {
-        res.write('<html>');
-        res.write('<head><title>Enter</title></head>')
-        res.write(`<body><h1>Node Server with routes</h1><h2>Listening on port ${PORT}</h2><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>`)
-        res.write('</html');
-        return res.end();
+    // Create a capitalize function for the h2 created from the path
+    function capitalize(string)
+    {
+        return string[0].toUpperCase() + string.slice(1);
     }
 
-    if (url === '/message' && method === 'POST') {
-        const body = [];
-        req.on('data', (chunk) => {
-            console.log(chunk);
-            body.push(chunk);
-        })
+    if (url === "/") {
+        res.write('<html>');
+        res.write(`<head><title>Home</title></head>`)
+        res.write(`<body><h1>Node Server with routes</h1><h2>Home</h2></body>`)
+        res.write('</html>');
+        console.log(`Requested path : ${url}`);
+        return res.end();
+    } else {
+        const path = url.split("/")[1];
+        const h2 = capitalize(path);
 
-        req.on('end', () => {
-            const parsedBody = Buffer.concat(body).toString();
-            const message = parsedBody.split('=')[1];
-            fs.writeFile('message.txt', message, (err) => {
-                res.statusCode = 302;
-                res.setHeader('Location', '/');
-                return res.end();
-            });
-        });
+        res.write('<html>');
+        res.write(`<head><title>${url}</title></head>`)
+        res.write(`<body><h1>Node Server with routes</h1><h2>${h2}</h2></body>`)
+        res.write('</html>');
+        console.log(`Requested path : ${url}`);
+        return res.end();
     }
 }
 
@@ -38,7 +35,7 @@ function reqListener(req, res) {
 const server = http.createServer(reqListener)
 
 // Tell the server where to listen
-const PORT = 3003;
+const PORT = 3000;
 server.listen(PORT);
 
 // Tell the user the server is running
