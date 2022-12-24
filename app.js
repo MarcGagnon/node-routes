@@ -14,17 +14,26 @@ function reqListener(req, res) {
     if (url === "/") {
         res.write('<html>');
         res.write(`<head><title>Home</title></head>`)
-        res.write(`<body><h1>Node Server with routes</h1><h2>Home</h2></body>`)
+        res.write(`<body><h1>Node Server with routes</h1><h2>Home</h2><p>This is the Home page.</p></body>`)
         res.write('</html>');
         console.log(`Requested path : ${url}`);
         return res.end();
-    } else {
+    } else if (url === "/about") {
+        res.write('<html>');
+        res.write(`<head><title>About</title></head>`)
+        res.write(`<body><h1>Node Server with routes</h1><h2>About</h2><p>This is the About page.</p></body>`)
+        res.write('</html>');
+        console.log(`Requested path : ${url}`);
+        return res.end();
+    }
+    
+    else {
         const path = url.split("/")[1];
         const h2 = capitalize(path);
 
         res.write('<html>');
-        res.write(`<head><title>${url}</title></head>`)
-        res.write(`<body><h1>Node Server with routes</h1><h2>${h2}</h2></body>`)
+        res.write(`<head><title>404</title></head>`)
+        res.write(`<body><h1>Node Server with routes</h1><h2>Awww... don't cry.</h2><p>It's just a 404 error page, you know?</p><p>Go back to the <a href="/">home page</a>.</p></body>`)
         res.write('</html>');
         console.log(`Requested path : ${url}`);
         return res.end();
