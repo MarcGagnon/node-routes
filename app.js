@@ -30,6 +30,8 @@ function reqListener(req, res) {
         const path = url.split("/")[1];
         const h2 = capitalize(path);
 
+        res.writeHead(400,
+            { 'Content-Type': 'text/html' });
         res.write('<!DOCTYPE html><html>');
         res.write(`<head><title>404</title></head>`)
         res.write(`<body><h1>Node Server with routes</h1><h2>Awww... don't cry.</h2><p>It's just a 404 error page, you know?</p><p>Go back to the <a href="/">home page</a>.</p></body>`)
